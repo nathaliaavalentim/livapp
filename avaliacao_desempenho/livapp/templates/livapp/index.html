@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sejam bem-vindos!</title>
+	
+	{% load static %}
+<link rel="shortcut icon" href="{% static 'livapp/images/favicon.png' %}"/>
+	
+</head>
+
+	
+<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+      <!-- Tema -->
+<link rel="stylesheet" type="text/css"  href="{% static 'css/bootstrap-theme.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'livapp/style.css' %}">
+	
+
+
+
+
+</head>
+
+
+
+
+<body class="index">
+
+<audio autoplay="autoplay"  preload="auto" loop=true>
+	<source src="{% static 'livapp/audios/index.wav' %}" type="audio/mpeg"/>
+</audio>
+
+<script>
+
+function create_UUID(){
+    var dt = new Date().getTime();
+    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = (dt + Math.random()*16)%16 | 0;
+        dt = Math.floor(dt/16);
+        return (c=='x' ? r :(r&0x3|0x8)).toString(16);
+    });
+    return uuid;
+}
+	
+	function ValoresPadroes(){
+	localStorage.setItem('botaoDoce',true);
+	localStorage.setItem('botaoCarro',true);
+	localStorage.setItem('botaoLivro',true);
+	localStorage.setItem('botaoBola',true);
+	localStorage.setItem('ordem',"");
+	localStorage.setItem('exe1n1', 0);
+	localStorage.setItem('exe1n2', 0);
+	localStorage.setItem('exe1n3', 0);
+	localStorage.setItem('exe1n4', 0);
+	localStorage.setItem('exe2n1', 0);
+	localStorage.setItem('exe2n2', 0);
+	localStorage.setItem('exe2n3', 0);
+	localStorage.setItem('exe2n4', 0);
+	localStorage.setItem('exe3n1', 0);
+	localStorage.setItem('exe3n2', 0);
+	localStorage.setItem('exe3n3', 0);
+	localStorage.setItem('exe3n4', 0);
+	localStorage.setItem('exe4n1', 0);
+	localStorage.setItem('exe4n2', 0);
+	localStorage.setItem('exe4n3', 0);
+	localStorage.setItem('exe4n4', 0);
+	localStorage.setItem('exe5n1', 0);
+	localStorage.setItem('exe5n2', 0);
+	localStorage.setItem('exe5n3', 0);
+	localStorage.setItem('exe5n4', 0);
+	localStorage.setItem('exe6n1', 0);
+	localStorage.setItem('exe6n2', 0);
+	localStorage.setItem('exe6n3', 0);
+	localStorage.setItem('exe6n4', 0);
+	localStorage.setItem("uuid", create_UUID());
+	}
+	
+function Login() {
+  var done = 0;
+  var usuario = document.getElementById('username').value;
+  usuario = usuario.toLowerCase();
+  var senha = document.getElementById('password').value;
+  senha = senha.toLowerCase();
+
+  if (
+	(usuario == "admin" && senha == "09876")||
+	usuario == "aluno1" && senha == "09876"
+	){
+    //window.location.replace("avatar.html");
+	
+	localStorage.setItem('botaoDoce',true);
+	localStorage.setItem('botaoCarro',true);
+	localStorage.setItem('botaoLivro',true);
+	localStorage.setItem('botaoBola',true);
+	localStorage.setItem('ordem',"");
+	
+	window.location.href="{% url 'livapp:avatar' %}"
+  }
+  else {
+    alert("Dados incorretos, tente novamente");
+	return;
+
+  }
+}
+
+function runScript(e) {
+    //See notes about 'which' and 'key'
+    if (e.keyCode == 13) {
+        Login();
+    }
+}
+
+	</script>
+	
+	
+
+
+<div class="container">
+
+
+
+
+			<div class="row">
+
+<div class="col-xs-12 col-sm-12 col-md-6">
+               
+            </div>
+<div class="col-xs-12 col-sm-12 col-md-6">
+
+
+
+<div class="myForm">
+<h1 class="page-header">
+					Olá! Sejam bem-vindos!
+					</h1>
+
+<form method="post">
+    {% csrf_token %}
+
+    <div class="form-group">
+        {{form_login.username.errors}}
+        <label>Usuário: </label>
+        {{form_login.username}}
+    </div>
+
+    <div class="form-group">
+        {{form_login.password.errors}}
+        <label>Senha: </label>
+        {{form_login.password}}
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Enviar" onclick="ValoresPadroes()" class="btn btn-primary">
+    </div>
+</form>
+
+     <!-- <div class="form-group" >   
+        <label>Usuário: </label>
+		<input type="username" name="nome" id="username" value="admin" size="10" maxlength="10">
+   
+    </div>
+
+    <div class="form-group">
+        
+        <label>Senha: </label>
+		<input type="password" name="senha" id="password" value="09876" size="10" maxlength="10" onkeypress="runScript(event)">
+		
+       
+    </div>
+
+    <div class="form-group">
+        <!--<button class="btn btn-primary" id="close-CSS" onclick="Login()" >Enviar</button>-->
+		<!--<input type="button" class="btn btn-primary" id="close-CSS" Value="Enviar" onclick="Login()" />
+
+    </div> -->
+	
+</div>
+
+</div>
+</div>
+</div>
+
+<font size="-2"><div class="navbar navbar-fixed-bottom" style="position:fixed;bottom:0;height:auto;margin-top:50px;width:100%;text-align:center" size="-4" >Imagens gratuitas retiradas de www.imagensanimadas.com, www.pngwing.com, www.gratispng.com e www.gyphy.com</div>
+</font>
+</body>
+</html>

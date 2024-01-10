@@ -1,0 +1,27 @@
+li a {
+    color: blue;
+}
+
+body {
+    background: white url("images/background.gif") no-repeat;
+	background-color: rgba(25,140,255,0.5);
+	background-size: 80px 60px;  /* 80 pixels de largura e 60 pixels de altura */
+	background-size: 300px;  /* 300 pixels de largura e altura automática */
+}
+
+
+  
+.myForm {
+  min-width: 500px;
+  position: absolute;
+  text-align: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-30%, 80%);
+  font-size: 2.5rem
+}
+@media (max-width: 500px) {
+  .myForm {
+    min-width: 90%;
+  }
+}

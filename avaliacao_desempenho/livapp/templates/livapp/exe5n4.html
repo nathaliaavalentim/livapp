@@ -1,0 +1,822 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,user-scalable=no">
+		<title>Exercícios</title>
+	
+		{% load static %}
+<link rel="shortcut icon" href="{% static 'livapp/images/favicon.png' %}"/>
+	
+	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+      <!-- Tema -->
+<link rel="stylesheet" type="text/css"  href="{% static 'css/bootstrap-theme.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'livapp/style.css' %}">
+
+<script src="{% static 'js/qlearning.js' %}"></script>
+
+<script>
+
+var distancia_total = 0;
+
+function allowDrop(ev) {
+  ev.preventDefault();
+}
+
+function drag(ev) {
+  ev.dataTransfer.setData("text", ev.target.id);
+}
+
+function drop(ev) {
+  //if
+  ev.preventDefault();
+  var data = ev.dataTransfer.getData("text");
+  ev.target.appendChild(document.getElementById(data));  
+  window.location.href="{% url 'livapp:picturereforco' %}"
+  
+  //else
+  //window.location.href="{% url 'livapp:picturedica2' %}"
+}
+
+
+</script>
+	
+	
+
+
+    <script>
+
+        function recebevalor(){
+            //var text = document.getElementById('text-to-analyze').value;
+			//alert("Funcao enviarvalor"); 
+            //document.getElementById("myImage").src="/static/livapp/images/"+ localStorage.getItem('avatar');
+			
+			//document.getElementById("drag1").src="/static/livapp/images/"+ localStorage.getItem('tema')+"_2.png";
+			document.getElementById("drag1").src="/static/livapp/images/"+ "osso.png";
+			document.getElementById("drag2").src="/static/livapp/images/"+ "peixe.png";
+			document.getElementById("drag3").src="/static/livapp/images/"+ "cenoura.png";
+			document.getElementById("drag4").src="/static/livapp/images/"+ "capim.png";
+        }
+		
+		function uploadFoto2(){
+			alert('abc');
+		}
+		
+		
+		
+		
+		function uploadFoto(){
+		
+			 
+                // crie um FormData {Object}
+                var data = {};
+				data["file"] = document.getElementById("arquivo").value;
+				data["tema"] = localStorage.getItem('tema');
+				
+				
+				
+				/*if(data["file"] == "data:,")
+				{
+					let abc = document.getElementById("screenshot-button");
+					abc.click();
+					abc = document.getElementById("botao_submit");
+					abc.click();
+					return;
+				}*/
+				
+				data["pagina"] = document.getElementById("pagina").value;
+		
+			$.ajax({
+                  type: "POST",
+                  url: "{{ request.build_absolute_uri }}upload/",
+				  
+                  
+                    enctype: 'multipart/form-data',
+					data: data,
+					
+                    cache: false, // desabilitar o "cache"
+                    
+                  success: function(data){
+                      console.log("success");
+                      console.log(data);
+					  localStorage.setItem('imagem',data);
+					  return false;
+					  
+                  },
+                  failure: function(data){
+                      console.log("failure");
+                      console.log(data);
+					  return false;
+                  },
+              });
+			
+			return false; // avoid to execute the actual submit of the form.
+		}
+		
+		
+		
+		function startPage(){
+		recebevalor();
+		tirarFoto();
+			if (localStorage.getItem('exe5n4') == "NaN" || localStorage.getItem('exe5n4') === null)
+			localStorage.setItem('exe5n4','1');
+			else{
+			var tmp = parseInt(localStorage.getItem('exe5n4'));
+			tmp = tmp+1;
+			localStorage.setItem('exe5n4',tmp);
+			}
+	
+		}
+
+function tirarFoto(){
+
+setTimeout(function(){
+      
+      let botao = document.getElementById("screenshot-button");
+		botao.click();
+       botao = document.getElementById("botao_submit");
+  botao.click();
+    }, 2000);
+}
+
+
+
+function enviadado(acerto,erro,distancia){ 		
+			exercicio = "Exercicio5N4";
+			var data = {};
+			data ["exercicio"] = exercicio;
+			data ["tempo"] = $("#time").text();
+			data ["acerto"] = acerto;
+			data ["erro"] = erro;
+			data ["tentativa"] = parseInt(localStorage.getItem('exe5n4'));
+			data ["latencia"] = tempoBotao1;
+			data ["coordenadaX"] = coordenadaX;
+			data ["coordenadaY"] = coordenadaY;
+			data ["latencia2"] = tempoBotao2;			
+			data ["coordenadaX2"] = coordenadaX2;
+			data ["coordenadaY2"] = coordenadaY2;
+			data ["latencia3"] = tempoBotao3;			
+			data ["coordenadaX3"] = coordenadaX3;
+			data ["coordenadaY3"] = coordenadaY3;
+			data ["latencia4"] = tempoBotao4;			
+			data ["coordenadaX4"] = coordenadaX4;
+			data ["coordenadaY4"] = coordenadaY4;
+			nextPage(exercicio,data ["tempo"], acerto == "sim" ? true : false, "{{ request.build_absolute_uri }}qlearning",distancia);
+            $.ajax({
+                  type: "GET",
+                  url: "{{ request.build_absolute_uri }}contador",
+				  
+                  data: data,
+                  success: function(data){
+                      console.log("success");
+                      console.log(data);
+                  },
+                  failure: function(data){
+                      console.log("failure");
+                      console.log(data);
+                  },
+              });
+			  
+		  
+}
+
+
+var startTime;
+var startTime2;
+var startTime3;
+var startTime4;
+var startTime5;
+
+var coordenadaX;
+var coordenadaY;
+var coordenadaX2;
+var coordenadaY2;
+var coordenadaX3;
+var coordenadaY3;
+var coordenadaX4;
+var coordenadaY4;
+
+function display() {
+  var endTime = new Date();
+  var timeDiff = endTime - startTime;
+  timeDiff /= 1000;
+  timeDiff = parseInt(timeDiff); 
+  
+  $("#time").text(timeDiff);
+  setTimeout(display, 1000);
+}
+
+function display2() {
+  var endTime = new Date();
+  var timeDiff = endTime - startTime2;
+  timeDiff /= 1000;
+  timeDiff = parseInt(timeDiff);
+  
+  $("#time2").text(timeDiff);
+  setTimeout(display2, 1000);
+}
+
+function display3() {
+  var endTime = new Date();
+  var timeDiff = endTime - startTime3;
+  timeDiff /= 1000;
+  timeDiff = parseInt(timeDiff);
+  
+  $("#time3").text(timeDiff);
+  setTimeout(display3, 1000);
+}
+
+function display4() {
+  var endTime = new Date();
+  var timeDiff = endTime - startTime4;
+  timeDiff /= 1000;
+  timeDiff = parseInt(timeDiff);
+  
+  $("#time4").text(timeDiff);
+  setTimeout(display4, 1000);
+}
+
+function display5() {
+  var endTime = new Date();
+  var timeDiff = endTime - startTime5;
+  timeDiff /= 1000;
+  timeDiff = parseInt(timeDiff);
+  
+  $("#time5").text(timeDiff);
+  setTimeout(display5, 1000);
+}
+
+startTime = new Date();
+setTimeout(display, 1000);
+
+
+
+
+
+
+function mostraValorAcerto(){
+//alert("Meu tempo total é: " + $("#time").text() + "\n Botao 1 acionado por: " + tempoBotao1 + "\n Coordenada X:" + coordenadaX + "\n Coordenada Y:" + coordenadaY + "\n Botao 2 acionado por: " + tempoBotao2 + "\n Coordenada X2:" + coordenadaX2 + "\n Coordenada Y2:" + coordenadaY2 + "\n Botao 3 acionado por: " + tempoBotao3 + "\n Coordenada X3:" + coordenadaX3 + "\n Coordenada Y3:" + coordenadaY3 + "\n Botao 4 acionado por: " + tempoBotao4 + "\n Coordenada X4:" + coordenadaX4 + "\n Coordenada Y4:" + coordenadaY4);
+enviadado("sim", "nao");
+localStorage.removeItem('exe5n4')
+location.href="{% url 'livapp:picturereforco' %}";
+}
+
+function mostraValorErro(distancia){
+//alert("Meu tempo total é: " + $("#time").text() + "\n Botao acionado por: " + $("#time2").text() + "\n Coordenada X:" + coordenadaX + "\n Coordenada Y:" + coordenadaY);
+enviadado("nao", "sim", distancia);
+location.href="{% url 'livapp:picturedica' %}";
+}				
+
+		
+
+		
+</script>		
+
+	
+</head>
+
+
+
+
+<body class="temas" onload="startPage()">
+
+<audio autoplay="autoplay"  preload="auto" loop=true>
+	<source src="{% static 'livapp/audios/exe5n2.wav' %}" type="audio/mpeg"/>
+</audio>
+
+
+
+
+<div id="screenshot" style="text-align:center;" hidden>
+  <canvas id="canvas"></canvas>
+
+  <video class="videostream" autoplay="" ></video>
+  <img id="screenshot-img" >
+   <p><button class="capture-button" >Capture video</button></p>
+</div>
+
+<div class="container">
+
+		<br><br><br>
+		
+
+		<div class="row">		
+		
+		<div class="col-xs-3 col-sm-3 col-md-3">
+		<img id="drag1" class="img-responsive" style="max-width:60%;height: auto;max-height: 100%;text-align:center;margin:auto;display:block; z-index: 3;">
+		</div>
+		
+		<div class="col-xs-3 col-sm-3 col-md-3">
+		<img id="drag2"  class="img-responsive" style="max-width:100%;height: auto;max-height: 100%;text-align:center;margin:auto;display:block; z-index: 4;">
+		</div>
+
+		<div class="col-xs-3 col-sm-3 col-md-3">
+		<img id="drag3"  class="img-responsive" style="max-width:100%;height: auto;max-height: 100%;text-align:center;margin:auto;display:block; z-index: 5;">
+		</div>
+		
+		<div class="col-xs-3 col-sm-3 col-md-3">
+		<img id="drag4"  class="img-responsive" style="max-width:60%;height: auto;max-height: 70%;text-align:center;margin:auto;display:block; z-index: 6;">
+		</div>
+
+
+		<div class="container">
+
+		<br><br><br>		
+		<br><br><br>		
+		<br><br><br>
+		<br><br><br>
+
+		
+		<div class="col-xs-3 col-sm-3 col-md-3">
+		<div href="{% url 'livapp:picturereforco' %}"  > <button id="screenshot-button" hidden >OK</button>
+		<a ><img border="0" class="img-responsive" style="max-width:100%;height: auto;max-height: 100%;text-align:center;margin:auto;display:block; z-index: 1;"id="droppable" src="{% static 'livapp/images/cachorrofome.png' %}" class="img-responsive" style="max-width:100%;height: auto;max-height: 100%;text-align:center;margin:auto;display:block"></button></a>
+		</div>
+		</div>
+		
+		<div class="col-xs-3 col-sm-3 col-md-3">
+		<a ><img border="0" class="img-responsive" style="max-width:100%;height: auto;max-height: 100%;text-align:center;margin:auto;display:block; z-index: 2"id="droppable2" src="{% static 'livapp/images/gatofome.png' %}" class="img-responsive" style="max-width:100%;height: auto;max-height: 100%;text-align:center;margin:auto;display:block"></button></a>
+		</div>
+		
+		<div class="col-xs-3 col-sm-3 col-md-3">
+		<a ><img border="0" class="img-responsive" style="max-width:100%;height: auto;max-height: 100%;text-align:center;margin:auto;display:block; z-index: 8"id="droppable3" src="{% static 'livapp/images/coelhofome.png' %}" class="img-responsive" style="max-width:100%;height: auto;max-height: 100%;text-align:center;margin:auto;display:block"></button></a>
+		</div>
+		
+		<div class="col-xs-3 col-sm-3 col-md-3">
+		<a ><img border="0" class="img-responsive" style="max-width:100%;height: auto;max-height: 100%;text-align:center;margin:auto;display:block; z-index: 7"id="droppable4" src="{% static 'livapp/images/vacafome.png' %}" class="img-responsive" style="max-width:100%;height: auto;max-height: 100%;text-align:center;margin:auto;display:block"></button></a>
+		</div>
+		</div>
+		</div>
+</div>
+
+	
+	<script src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.8.21/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+    <script>
+	
+	   let moveuGato = "0";
+	   let moveuCachorro = "0";
+	   let moveuCoelho = "0";
+	   let moveuVaca = "0";
+	   let entregouGato = "0";
+
+	   let entregouCachorro = "0";
+	   let entregouCoelho = "0";
+	   let entregouVaca = "0";
+	   let tempoBotao1 = "";
+	   let tempoBotao2 = "";
+	   let tempoBotao3 = "";
+	   let tempoBotao4 = "";
+	
+	   $('#droppable').droppable({
+		drop:function(event,ui){
+		
+		    if(moveuCachorro == '1'){
+				entregouCachorro = '1';
+				
+			} 
+			else{
+				entregouCachorro = '2'; 
+			
+			}
+			
+			}
+		});
+		
+		$('#droppable2').droppable({
+		drop:function(event,ui){
+		
+			if(moveuGato == '1')
+				entregouGato = '1'; 
+			else
+				entregouGato = '2';  
+	
+			}
+		});
+		
+		
+		$('#droppable3').droppable({
+		drop:function(event,ui){
+		
+			if(moveuCoelho == '1')
+				entregouCoelho = '1'; 
+			else
+				entregouCoelho = '2';  
+						
+			}
+		});
+		
+				
+		$('#droppable4').droppable({
+		drop:function(event,ui){
+		
+			if(moveuVaca == '1')
+				entregouVaca = '1'; 
+			else
+				entregouVaca = '2';  
+						
+			}
+		});
+		
+		$('#drag1').draggable({
+
+			start: function(event, ui) {
+				moveuCachorro = '1';
+				//moveuGato = '2';
+				//moveuCoelho = '2';
+				startTime2 = new Date();
+				setTimeout(display2, 1000);
+
+			},
+            stop: function( event, ui ) {
+		
+				coordenadaX = ui.position.top;
+                coordenadaY =  ui.position.left;
+				tempoBotao1 = $("#time2").text();
+				
+				var distancia_top = 0;
+				 var distancia_bottom = 0;
+				 var distancia_left = 0;
+				 var distancia_right = 0;
+				 
+				 
+				 
+				 if(document.querySelector('#drag1').getBoundingClientRect().bottom
+					< document.querySelector('#droppable').getBoundingClientRect().top){
+					distancia_top = document.querySelector('#droppable').getBoundingClientRect().top - document.querySelector('#drag1').getBoundingClientRect().bottom;
+					}
+					
+				if(document.querySelector('#drag1').getBoundingClientRect().top
+					> document.querySelector('#droppable').getBoundingClientRect().bottom){
+					distancia_bottom = document.querySelector('#drag1').getBoundingClientRect().top - document.querySelector('#droppable').getBoundingClientRect().bottom;
+					}
+					
+				if(document.querySelector('#drag1').getBoundingClientRect().right
+					< document.querySelector('#droppable').getBoundingClientRect().left){
+					distancia_left = document.querySelector('#droppable').getBoundingClientRect().left - document.querySelector('#drag1').getBoundingClientRect().right;
+					}
+					
+				if(document.querySelector('#drag1').getBoundingClientRect().left
+					> document.querySelector('#droppable').getBoundingClientRect().right){
+					distancia_right = document.querySelector('#drag1').getBoundingClientRect().left - document.querySelector('#droppable').getBoundingClientRect().right;
+					}
+				
+				
+			    var distancia_temp = distancia_top + distancia_bottom + distancia_left + distancia_right;
+				
+				if(distancia_temp == 0 && moveuCachorro == '1' ){
+					entregouCachorro = '1'
+					
+				}
+				else{
+					entregouCachorro = '2'
+				
+				}
+
+					console.log("Cachorro " + entregouCachorro)
+				console.log("Gato " + entregouGato)
+				console.log("Coelho " + entregouCoelho)
+				console.log("Vaca " + entregouVaca)
+				console.log("distancia " + distancia_temp)
+				console.log("moveu  " + moveuCachorro)
+					
+				
+				if(distancia_temp > 0 || (entregouGato == '2' || entregouCachorro == '2' || entregouCoelho == '2' || entregouVaca == '2')){
+					distancia_total += distancia_temp
+					//window.location.href="{% url 'livapp:picturedica5' %}";
+					//
+					window.location.href="javascript:mostraValorErro("+distancia_total+")";
+				}
+				else if(entregouGato == '1' && entregouCachorro == '1' && entregouCoelho == '1' && entregouVaca == '1'){
+					window.location.href="javascript:mostraValorAcerto()";
+				}
+				
+				
+				
+            }    
+        });
+	
+        $('#drag2').draggable({
+		
+
+			start: function(event, ui) {
+				//moveuCachorro = '2';
+				moveuGato = '1';
+				//moveuCoelho = '2';
+				startTime3 = new Date();
+				setTimeout(display3, 1000);
+			},
+            stop: function( event, ui ) {
+				//coordenadaX = '0';
+              //  coordenadaY =  '0';
+				coordenadaX2 = ui.position.top;
+                coordenadaY2 =  ui.position.left;
+				tempoBotao2 = $("#time3").text();
+			
+                var distancia_top = 0;
+				 var distancia_bottom = 0;
+				 var distancia_left = 0;
+				 var distancia_right = 0;
+				 
+				 
+				 
+				 if(document.querySelector('#drag2').getBoundingClientRect().bottom
+					< document.querySelector('#droppable2').getBoundingClientRect().top){
+					distancia_top = document.querySelector('#droppable2').getBoundingClientRect().top - document.querySelector('#drag2').getBoundingClientRect().bottom;
+					}
+					
+				if(document.querySelector('#drag2').getBoundingClientRect().top
+					> document.querySelector('#droppable2').getBoundingClientRect().bottom){
+					distancia_bottom = document.querySelector('#drag2').getBoundingClientRect().top - document.querySelector('#droppable2').getBoundingClientRect().bottom;
+					}
+					
+				if(document.querySelector('#drag2').getBoundingClientRect().right
+					< document.querySelector('#droppable2').getBoundingClientRect().left){
+					distancia_left = document.querySelector('#droppable2').getBoundingClientRect().left - document.querySelector('#drag2').getBoundingClientRect().right;
+					}
+					
+				if(document.querySelector('#drag2').getBoundingClientRect().left
+					> document.querySelector('#droppable2').getBoundingClientRect().right){
+					distancia_right = document.querySelector('#drag2').getBoundingClientRect().left - document.querySelector('#droppable2').getBoundingClientRect().right;
+					}
+				
+				
+			    var distancia_temp = distancia_top + distancia_bottom + distancia_left + distancia_right;
+				
+				if(distancia_temp == 0 && moveuGato == '1' )
+					entregouGato = '1'
+				else
+					entregouGato = '2'
+
+					console.log("Cachorro " + entregouCachorro)
+				console.log("Gato " + entregouGato)
+				console.log("Coelho " + entregouCoelho)
+				console.log("Vaca " + entregouVaca)
+					
+				
+				if(distancia_temp > 0 || (entregouGato == '2' || entregouCachorro == '2' || entregouCoelho == '2' || entregouVaca == '2')){
+					distancia_total += distancia_temp
+					//window.location.href="{% url 'livapp:picturedica5' %}";
+					//
+					window.location.href="javascript:mostraValorErro("+distancia_total+")";
+				}
+				else if(entregouGato == '1' && entregouCachorro == '1' && entregouCoelho == '1' && entregouVaca == '1'){
+					window.location.href="javascript:mostraValorAcerto()";
+				}
+            }    
+        });
+		
+		$('#drag3').draggable({		
+
+			start: function(event, ui) {
+				//moveuCachorro = '2';
+				//moveuGato = '2';
+				moveuCoelho = '1';
+				startTime4 = new Date();
+				setTimeout(display4, 1000);
+			},
+            stop: function( event, ui ) {
+				//coordenadaX = '0';
+              //  coordenadaY =  '0';
+				//coordenadaX2 = '0';
+              //  coordenadaY2 =  '0';
+				coordenadaX3 = ui.position.top;
+                coordenadaY3 =  ui.position.left;
+				tempoBotao3 = $("#time4").text();
+			
+                var distancia_top = 0;
+				 var distancia_bottom = 0;
+				 var distancia_left = 0;
+				 var distancia_right = 0;
+				 
+				 
+				 
+				 if(document.querySelector('#drag3').getBoundingClientRect().bottom
+					< document.querySelector('#droppable3').getBoundingClientRect().top){
+					distancia_top = document.querySelector('#droppable3').getBoundingClientRect().top - document.querySelector('#drag3').getBoundingClientRect().bottom;
+					}
+					
+				if(document.querySelector('#drag3').getBoundingClientRect().top
+					> document.querySelector('#droppable3').getBoundingClientRect().bottom){
+					distancia_bottom = document.querySelector('#drag3').getBoundingClientRect().top - document.querySelector('#droppable3').getBoundingClientRect().bottom;
+					}
+					
+				if(document.querySelector('#drag3').getBoundingClientRect().right
+					< document.querySelector('#droppable3').getBoundingClientRect().left){
+					distancia_left = document.querySelector('#droppable3').getBoundingClientRect().left - document.querySelector('#drag3').getBoundingClientRect().right;
+					}
+					
+				if(document.querySelector('#drag3').getBoundingClientRect().left
+					> document.querySelector('#droppable3').getBoundingClientRect().right){
+					distancia_right = document.querySelector('#drag3').getBoundingClientRect().left - document.querySelector('#droppable3').getBoundingClientRect().right;
+					}
+				
+				
+			    var distancia_temp = distancia_top + distancia_bottom + distancia_left + distancia_right;
+				
+				if(distancia_temp == 0 && moveuCoelho == '1' )
+					entregouCoelho = '1'
+				else
+					entregouCoelho = '2'
+
+					console.log("Cachorro " + entregouCachorro)
+				console.log("Gato " + entregouGato)
+				console.log("Coelho " + entregouCoelho)
+				console.log("Vaca " + entregouVaca)
+					
+				
+				if(distancia_temp > 0 || (entregouGato == '2' || entregouCachorro == '2' || entregouCoelho == '2' || entregouVaca == '2')){
+					distancia_total += distancia_temp
+					//window.location.href="{% url 'livapp:picturedica5' %}";
+					//
+					window.location.href="javascript:mostraValorErro("+distancia_total+")";
+				}
+				else if(entregouGato == '1' && entregouCachorro == '1' && entregouCoelho == '1' && entregouVaca == '1'){
+					window.location.href="javascript:mostraValorAcerto()";
+				}
+            }    
+        });
+		
+		$('#drag4').draggable({		
+
+			start: function(event, ui) {
+				//moveuCachorro = '2';
+				//moveuGato = '2';
+				moveuVaca = '1';
+				startTime5 = new Date();
+				setTimeout(display5, 1000);
+			},
+            stop: function( event, ui ) {
+				//coordenadaX = '0';
+               // coordenadaY =  '0';
+				//coordenadaX2 = '0';
+               // coordenadaY2 =  '0';
+				//coordenadaX3 = '0';
+               // coordenadaY3 =  '0';
+				
+				tempoBotao4 = $("#time5").text();
+
+				var distancia_top = 0;
+				 var distancia_bottom = 0;
+				 var distancia_left = 0;
+				 var distancia_right = 0;
+			
+                if(document.querySelector('#drag4').getBoundingClientRect().bottom
+					< document.querySelector('#droppable4').getBoundingClientRect().top){
+					distancia_top = document.querySelector('#droppable4').getBoundingClientRect().top - document.querySelector('#drag4').getBoundingClientRect().bottom;
+					}
+					
+				if(document.querySelector('#drag4').getBoundingClientRect().top
+					> document.querySelector('#droppable4').getBoundingClientRect().bottom){
+					distancia_bottom = document.querySelector('#drag4').getBoundingClientRect().top - document.querySelector('#droppable4').getBoundingClientRect().bottom;
+					}
+					
+				if(document.querySelector('#drag4').getBoundingClientRect().right
+					< document.querySelector('#droppable4').getBoundingClientRect().left){
+					distancia_left = document.querySelector('#droppable4').getBoundingClientRect().left - document.querySelector('#drag4').getBoundingClientRect().right;
+					}
+					
+				if(document.querySelector('#drag4').getBoundingClientRect().left
+					> document.querySelector('#droppable4').getBoundingClientRect().right){
+					distancia_right = document.querySelector('#drag4').getBoundingClientRect().left - document.querySelector('#droppable4').getBoundingClientRect().right;
+					}
+				
+				
+			    var distancia_temp = distancia_top + distancia_bottom + distancia_left + distancia_right;
+				
+				if(distancia_temp == 0 && moveuVaca == '1' )
+					entregouVaca = '1'
+				else
+					entregouVaca = '2'
+
+					console.log("Cachorro " + entregouCachorro)
+				console.log("Gato " + entregouGato)
+				console.log("Coelho " + entregouCoelho)
+				console.log("Vaca " + entregouVaca)
+
+	
+				
+				
+					
+				
+				if(distancia_temp > 0 || (entregouGato == '2' || entregouCachorro == '2' || entregouCoelho == '2' || entregouVaca == '2')){
+					distancia_total += distancia_temp
+					//window.location.href="{% url 'livapp:picturedica5' %}";
+					//
+					window.location.href="javascript:mostraValorErro("+distancia_total+")";
+				}
+				else if(entregouGato == '1' && entregouCachorro == '1' && entregouCoelho == '1' && entregouVaca == '1'){
+					window.location.href="javascript:mostraValorAcerto()";
+				}
+            }    
+        });
+		
+		
+		
+		
+    </script>
+
+
+</div>
+</div>
+<div hidden id="time"></div>
+<div hidden id="time2"></div>
+<div hidden id="time3"></div>
+<div hidden id="time4"></div>
+<div hidden id="time5"></div>
+<script>
+
+const constraints = {
+  video: true,
+};
+
+const captureVideoButton = document.querySelector(
+  "#screenshot .capture-button"
+);
+const screenshotButton = document.querySelector("#screenshot-button");
+
+
+const img = document.querySelector("#screenshot img");
+
+
+const video = document.querySelector("#screenshot video");
+
+
+navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
+  video.srcObject = stream;
+});
+
+const canvas = document.getElementById("canvas");
+
+captureVideoButton.onclick = function () {
+  navigator.mediaDevices
+    .getUserMedia(constraints)
+    .then(handleSuccess)
+    .catch(handleError);
+};
+
+screenshotButton.onclick = video.onclick = function () {
+//window.location.replace("{% url 'livapp:picture' %}");
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  canvas.getContext("2d").drawImage(video, 0, 0);
+
+  // Other browsers will fall back to image/png
+  img.src = canvas.toDataURL("image/webp");  
+  
+  
+  
+  document.getElementById("arquivo").value=canvas.toDataURL("image/jpeg",0.9);
+  
+  /*setTimeout(function(){
+      let abc = document.getElementById("botao_submit");
+  abc.click();
+    }, 3000);*/
+};
+
+
+function handleSuccess(stream) {
+  screenshotButton.disabled = false;
+  video.srcObject = stream;
+}
+
+function handleError(error) {
+  console.error("Error: ", error);
+}
+
+
+
+
+
+
+
+
+</script>
+
+<h1>
+      {{what}}
+  </h1>
+  <table>
+    <tr>
+      <td>
+	  
+	 
+	  
+        
+          
+		  <input type="hidden" name="file" id="arquivo"/>
+          <br />
+          <input type="hidden" name="pagina" id="pagina" value="exe5n4"/>
+		  
+		  <button id="botao_submit"  onclick= "return uploadFoto()" hidden>submit</button>
+        
+      </td>
+    </tr>
+  </table>
+  
+  <font size="-2"><div class="navbar navbar-fixed-bottom" style="position:fixed;bottom:0;height:auto;margin-top:50px;width:100%;text-align:center" size="-4" >Imagens gratuitas retiradas de www.imagensanimadas.com, www.pngwing.com, www.gratispng.com e www.gyphy.com</div>
+</font>
+</body>
+</html>

@@ -1,0 +1,5 @@
+<RCC>
+  <qresource prefix="robo">
+    <file>robo-ciencia-robo-de-cima.png</file>
+  </qresource>
+</RCC>

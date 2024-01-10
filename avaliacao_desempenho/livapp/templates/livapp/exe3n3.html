@@ -1,0 +1,362 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+	
+
+	    <title>Exercícios</title>
+	
+		{% load static %}
+<link rel="shortcut icon" href="{% static 'livapp/images/favicon.png' %}"/>
+	
+	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+      <!-- Tema -->
+<link rel="stylesheet" type="text/css"  href="{% static 'css/bootstrap-theme.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'livapp/style.css' %}">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    
+	<script src="{% static 'js/qlearning.js' %}"></script>
+	
+	<script>
+
+        function recebevalor(){
+            //var text = document.getElementById('text-to-analyze').value;
+			//alert("Funcao enviarvalor"); 
+            //document.getElementById("myImage").src="/static/livapp/images/"+ localStorage.getItem('avatar');
+			
+			document.getElementById("imagem1").src="/static/livapp/images/"+ localStorage.getItem('tema')+"_1.png";
+			document.getElementById("imagem2").src="/static/livapp/images/"+ localStorage.getItem('tema')+"_2.png";
+			document.getElementById("imagem3").src="/static/livapp/images/"+ localStorage.getItem('tema')+"_1_pb.png";
+			document.getElementById("imagem4").src="/static/livapp/images/"+ localStorage.getItem('tema')+"_2_pb.png";
+        }
+		
+		function uploadFoto2(){
+			alert('abc');
+		}
+		
+		
+		
+		
+		function uploadFoto(){
+		
+			 var form = $('#fileUploadForm')[0];
+                // crie um FormData {Object}
+                var data = {};
+				data["file"] = document.getElementById("arquivo").value;
+				data["tema"] = localStorage.getItem('tema');
+				
+				
+				
+				/*if(data["file"] == "data:,")
+				{
+					let abc = document.getElementById("screenshot-button");
+					abc.click();
+					abc = document.getElementById("botao_submit");
+					abc.click();
+					return;
+				}*/
+				
+				data["pagina"] =document.getElementById("pagina").value;
+		
+			$.ajax({
+                  type: "POST",
+                  url: "{{ request.build_absolute_uri }}upload/",
+				  
+                  
+                    enctype: 'multipart/form-data',
+					data: data,
+					
+                    cache: false, // desabilitar o "cache"
+                    
+                  success: function(data){
+                      console.log("success");
+                      console.log(data);
+					  localStorage.setItem('imagem',data);
+					  return false;
+					  
+                  },
+                  failure: function(data){
+                      console.log("failure");
+                      console.log(data);
+					  return false;
+                  },
+              });
+			
+			return false; // avoid to execute the actual submit of the form.
+		}
+		
+		
+		// this is the id of the submit button
+		
+		/*
+$("#botao_submit").click(function() {
+
+    var url = "path/to/your/script.php"; // the script where you handle the form input.
+
+    $.ajax({
+           type: "POST",
+           url: "{{ request.build_absolute_uri }}upload/",
+           data: $("#fileUploadForm").serialize(), // serializes the form's elements.
+           success: function(data)
+           {
+               alert(data); // show response from the php script.
+           }
+         });
+
+    return false; // avoid to execute the actual submit of the form.
+});*/
+		
+		
+		function startPage(){
+		recebevalor();
+		tirarFoto();
+		
+		if (localStorage.getItem('exe3n3') == "NaN" || localStorage.getItem('exe3n3') === null)
+			localStorage.setItem('exe3n3','1');
+		else{
+			var tmp = parseInt(localStorage.getItem('exe3n3'));
+			tmp = tmp+1;
+			localStorage.setItem('exe3n3',tmp);
+			}
+		}
+	
+	
+
+
+function tirarFoto(){
+
+setTimeout(function(){
+      
+      let botao = document.getElementById("screenshot-button");
+		botao.click();
+       botao = document.getElementById("botao_submit");
+  botao.click();
+    }, 2000);
+}
+
+function enviadado(acerto,erro){ 		
+			exercicio = "Exercicio3N3";
+			var data = {};
+			data ["exercicio"] = exercicio;
+			data ["tempo"] = $("#time").text();
+			data ["acerto"] = acerto;
+			data ["erro"] = erro;
+			data ["latencia"] = '0';
+			data ["coordenadaX"] = '0';
+			data ["coordenadaY"] = '0';
+			data ["latencia2"] = '0';			
+			data ["coordenadaX2"] = '0';
+			data ["coordenadaY2"] = '0';
+			data ["latencia3"] = '0';			
+			data ["coordenadaX3"] = '0';
+			data ["coordenadaY3"] = '0';
+			data ["latencia4"] = '0';			
+			data ["coordenadaX4"] = '0';
+			data ["coordenadaY4"] = '0';
+			data ["tentativa"] = parseInt(localStorage.getItem('exe3n3'));
+            nextPage(exercicio,data ["tempo"], acerto == "sim" ? true : false, "{{ request.build_absolute_uri }}qlearning");
+			$.ajax({
+                  type: "GET",
+                  url: "{{ request.build_absolute_uri }}contador",
+				  
+                  data: data,
+                  success: function(data){
+                      console.log("success");
+                      console.log(data);
+                  },
+                  failure: function(data){
+                      console.log("failure");
+                      console.log(data);
+                  },
+              });
+			  
+		  
+        }
+
+
+//window.onload = startPage;
+		
+var startTime;
+
+function display() {
+  var endTime = new Date();
+  var timeDiff = endTime - startTime;
+  timeDiff /= 1000;
+  timeDiff = parseInt(timeDiff);
+  
+  
+  $("#time").text(timeDiff);
+  setTimeout(display, 1000);
+}
+
+startTime = new Date();
+setTimeout(display, 1000);
+
+$("#button").click(function() {
+  alert("Meu tempo é: " + $("#time").text());
+});
+
+function mostraValorAcerto(){
+//alert("Meu tempo é: " + $("#time").text());
+enviadado("sim", "nao");
+localStorage.removeItem('exe3n3')
+location.href="{% url 'livapp:picturereforco' %}";
+}
+
+function mostraValorErro(){
+//alert("Meu tempo é: " + $("#time").text());
+enviadado("nao", "sim");
+location.href="{% url 'livapp:picturedica' %}";
+}
+		
+
+		
+    </script>			
+	
+</head>
+
+
+
+<body class="temas" onload="startPage()">
+
+<audio autoplay="autoplay"  preload="auto" loop=true>
+	<source src="{% static 'livapp/audios/exe3.wav' %}" type="audio/mpeg"/>
+</audio>
+
+<div id="screenshot" style="text-align:center;" hidden>
+  <canvas id="canvas"></canvas>
+
+  <video class="videostream" autoplay="" ></video>
+  <img id="screenshot-img" >
+   <p><button class="capture-button" >Capture video</button></p>
+</div>
+
+<div class="container">
+
+		<br><br><br>
+		
+
+		<div class="row">	
+
+		
+		<div class="col-xs-3 col-sm-3 col-md-3">
+		<a href="javascript:mostraValorErro()"><img border="0" id="imagem1"   class="img-responsive" style="max-width:100%;height: auto;max-height: 100%;text-align:center;margin:auto;display:block; z-index: 1;"></a>
+		</div>
+		
+		
+		<div class="col-xs-3 col-sm-3 col-md-3">
+		<button id="screenshot-button" hidden >OK</button>
+		<a href="javascript:mostraValorAcerto()"><img border="0" id="imagem2" class="img-responsive" style="max-width:100%;height: auto;max-height: 100%;text-align:center;margin:auto;display:block; z-index: 2;"></a>
+		</div>
+		
+		
+		<div class="row">	
+		<div class="col-xs-3 col-sm-3 col-md-3">
+		<a href="javascript:mostraValorErro()"><img border="0" id="imagem3"  class="img-responsive" style="max-width:100%;height: auto;max-height: 100%;text-align:center;margin:auto;display:block; z-index: 3;"></a>
+		</div>
+		
+		<div class="col-xs-3 col-sm-3 col-md-3">
+		<a href="javascript:mostraValorErro()"><img border="0" id="imagem4"  class="img-responsive" style="max-width:100%;height: auto;max-height: 100%;text-align:center;margin:auto;display:block; z-index: 3;"></a>
+		</div>
+		
+	
+	</div>
+	
+	</div>
+<div hidden id="time"></div>
+<script>
+
+const constraints = {
+  video: true,
+};
+
+const captureVideoButton = document.querySelector(
+  "#screenshot .capture-button"
+);
+const screenshotButton = document.querySelector("#screenshot-button");
+
+
+const img = document.querySelector("#screenshot img");
+
+
+const video = document.querySelector("#screenshot video");
+
+
+navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
+  video.srcObject = stream;
+});
+
+const canvas = document.getElementById("canvas");
+
+captureVideoButton.onclick = function () {
+  navigator.mediaDevices
+    .getUserMedia(constraints)
+    .then(handleSuccess)
+    .catch(handleError);
+};
+
+screenshotButton.onclick = video.onclick = function () {
+//window.location.replace("{% url 'livapp:picture' %}");
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  canvas.getContext("2d").drawImage(video, 0, 0);
+
+  // Other browsers will fall back to image/png
+  img.src = canvas.toDataURL("image/webp");  
+  
+  
+  
+  document.getElementById("arquivo").value=canvas.toDataURL("image/jpeg",0.9);
+  
+  /*setTimeout(function(){
+      let abc = document.getElementById("botao_submit");
+  abc.click();
+    }, 3000);*/
+};
+
+
+function handleSuccess(stream) {
+  screenshotButton.disabled = false;
+  video.srcObject = stream;
+}
+
+function handleError(error) {
+  console.error("Error: ", error);
+}
+
+
+
+
+
+
+
+
+</script>
+
+<h1>
+      {{what}}
+  </h1>
+  <table>
+    <tr>
+      <td>
+	  
+	 
+	  
+        
+          
+		  <input type="hidden" name="file" id="arquivo"/>
+          <br />
+          <input type="hidden" name="pagina" id="pagina" value="exe3n3"/>
+		  
+		  <button id="botao_submit"  onclick= "return uploadFoto()" hidden>submit</button>
+        
+      </td>
+    </tr>
+  </table>
+  <font size="-2"><div class="navbar navbar-fixed-bottom" style="position:fixed;bottom:0;height:auto;margin-top:50px;width:100%;text-align:center" size="-4" >Imagens gratuitas retiradas de www.imagensanimadas.com, www.pngwing.com e www.gratispng.com</div>
+</font>
+</body>
+</html>

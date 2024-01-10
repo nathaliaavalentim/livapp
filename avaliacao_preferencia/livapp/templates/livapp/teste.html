@@ -1,0 +1,89 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+	<!--<meta http-equiv="refresh" content="3;url=/livapp/pictureex2/" />-->
+    <title>Parabéns</title>
+		{% load static %}
+<link rel="shortcut icon" href="{% static 'livapp/images/favicon.png' %}"/>
+	
+	
+	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+      <!-- Tema -->
+<link rel="stylesheet" type="text/css"  href="{% static 'css/bootstrap-theme.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'livapp/style.css' %}">
+	
+
+
+
+
+</head>
+
+
+<body class="temas">
+
+
+
+<device type="media" onchange="update(this.data)"></device>
+
+<div id="screenshot" style="text-align:center;">
+  <video class="videostream" autoplay="" hidden></video>
+  <img id="screenshot-img">
+  <p><button class="capture-button">Capture video</button>
+  </p><p><button id="screenshot-button" disabled="">Take screenshot</button></p>
+</div>
+
+
+<script>
+
+const constraints = {
+  video: true,
+};
+
+const captureVideoButton = document.querySelector(
+  "#screenshot .capture-button"
+);
+const screenshotButton = document.querySelector("#screenshot-button");
+const img = document.querySelector("#screenshot img");
+const video = document.querySelector("#screenshot video");
+
+navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
+  video.srcObject = stream;
+});
+
+const canvas = document.createElement("canvas");
+
+captureVideoButton.onclick = function () {
+  navigator.mediaDevices
+    .getUserMedia(constraints)
+    .then(handleSuccess)
+    .catch(handleError);
+};
+
+screenshotButton.onclick = video.onclick = function () {
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  canvas.getContext("2d").drawImage(video, 0, 0);
+  // Other browsers will fall back to image/png
+  img.src = canvas.toDataURL("image/webp");
+};
+
+function handleSuccess(stream) {
+  screenshotButton.disabled = false;
+  video.srcObject = stream;
+}
+
+function handleError(error) {
+  console.error("Error: ", error);
+}
+
+</script>
+
+
+
+
+
+
+</body>
+</html>

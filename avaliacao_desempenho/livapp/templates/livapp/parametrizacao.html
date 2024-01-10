@@ -1,0 +1,233 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Parametrizacao</title>
+		{% load static %}
+<link rel="shortcut icon" href="{% static 'livapp/images/favicon.png' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+<link rel="stylesheet" type="text/css"  href="{% static 'css/bootstrap-theme.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'livapp/style.css' %}">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script>
+
+        function saveparametro(){		
+		
+            //var text = document.getElementById('text-to-analyze').value;
+			//alert("Funcao enviarvalor");			
+            var data = {};
+			data ["tempoIdeal"] = document.getElementById("tempoIdeal").value;
+			data ["tempoSatisfatorio"] = document.getElementById("tempoSatisfatorio").value;
+			data ["reforcoForte"] = document.getElementById("reforcoForte").value;
+			data ["reforcoMedio"] = document.getElementById("reforcoMedio").value;
+			data ["reforcoFraco"] = document.getElementById("reforcoFraco").value;
+			data ["pontuacaoMaxima"] = document.getElementById("pontuacaoMaxima").value;
+			data ["pontuacaoMedia"] = document.getElementById("pontuacaoMedia").value;
+			data ["pontuacaoMinima"] = document.getElementById("pontuacaoMinima").value;
+			data ["pontuacaoFinal"] = document.getElementById("pontuacaoFinal").value;
+			
+            $.ajax({
+                  type: "GET",
+                  url: "{{ request.build_absolute_uri }}saveparametro",
+				  
+                  data: data,
+                  success: function(data){
+                      console.log("success");
+                      console.log(data);
+					  
+						location.href="{% url 'livapp:pictureex' %}";
+                  },
+                  failure: function(data){
+                      console.log("failure");
+                      console.log(data);
+                  },
+              });
+			  
+        }
+		
+		
+		function getparametro(){		
+		
+            //var text = document.getElementById('text-to-analyze').value;
+			//alert("Funcao enviarvalor");			
+            var data = {};			
+            $.ajax({
+                  type: "GET",
+                  url: "{{ request.build_absolute_uri }}getparametro",
+				  
+                  data: data,
+                  success: function(data){
+                      console.log("success");
+                      console.log(data);
+					  
+					  
+					  
+					  
+					 
+						
+						 document.getElementById("tempoIdeal").value = data.tempoIdeal
+						 document.getElementById("tempoSatisfatorio").value = data.tempoSatisfatorio
+						 document.getElementById("reforcoForte").value = data.reforcoForte
+						 document.getElementById("reforcoMedio").value = data.reforcoMedio
+						 document.getElementById("reforcoFraco").value = data.reforcoFraco
+						 document.getElementById("pontuacaoMaxima").value = data.pontuacaoMaxima
+						 document.getElementById("pontuacaoMedia").value = data.pontuacaoMedia
+						 document.getElementById("pontuacaoMinima").value = data.pontuacaoMinima
+						 document.getElementById("pontuacaoFinal").value = data.pontuacaoFinal
+                  },
+                  failure: function(data){
+                      console.log("failure");
+                      console.log(data);
+                  },
+              });
+		}
+		
+		window.onload = getparametro;
+		
+		function enviaravatarbd(nomeavatar){
+			if (nomeavatar == "menina2_feliz.gif"){
+			nomeavatar = "Menina2";
+			}
+		
+			if (nomeavatar == "cao_feliz.gif"){
+			nomeavatar = "Cachorro";
+			}
+			
+			if (nomeavatar == "menina_feliz.gif"){
+			nomeavatar = "Menina";
+			}
+			
+			if (nomeavatar == "menino2_feliz.gif"){
+			nomeavatar = "Menino";
+			}
+			
+			if (nomeavatar == "coelho_feliz.gif"){
+			nomeavatar = "Coelho";
+			}
+			
+			if (nomeavatar == "emoji_feliz.gif"){
+			nomeavatar = "Emoji";
+			}
+            //var text = document.getElementById('text-to-analyze').value;
+			//alert("Funcao enviarvalor"); 
+			var data = {};
+			data ["avatar"] = nomeavatar;
+			data ["tema_1"] = "";
+			data ["tema_2"] = "";
+			data ["tema_3"] = "";
+			data ["tema_4"] = "";
+            $.ajax({
+                  type: "GET",
+                  url: "{{ request.build_absolute_uri }}salvaavatarbd",
+				  
+                  data: data,
+                  success: function(data){
+                      console.log("success");
+                      console.log(data);
+                  },
+                  failure: function(data){
+                      console.log("failure");
+                      console.log(data);
+                  },
+              });
+			  
+			  
+
+			  
+        }
+
+</script>
+
+
+
+
+</head>
+
+
+
+
+<body class="temas">
+
+<!--<audio autoplay="autoplay"  preload="auto" loop=true>
+	<source src="{% static 'livapp/audios/avatar.wav' %}" type="audio/mpeg"/>
+</audio>-->
+
+<div class="container">
+
+		<br><br><br>
+		
+
+		<div class="row">	
+		
+		<div class="form-group">
+
+		<!--<form action="/pagina-processa-dados-do-form" method="post">-->
+		<div class="form-group">
+        <label for="tempoIdeal">Tempo Ideal:</label>
+        <input type="text" id="tempoIdeal" />
+		</div>
+		
+		<div class="form-group">
+        <label for="tempoSatisfatorio">Tempo Satisfatorio:</label>
+        <input type="text" id="tempoSatisfatorio" />
+		</div>
+		
+		<div class="form-group">
+        <label for="reforcoForte">Reforco Forte:</label>
+        <input type="text" id="reforcoForte" />
+		</div>
+	
+		
+		<div class="form-group">
+        <label for="reforcoMedio">Reforco Medio:</label>
+        <input type="text" id="reforcoMedio" />
+		</div>
+		
+		<div class="form-group">
+        <label for="reforcoFraco">Reforco Fraco:</label>
+        <input type="text" id="reforcoFraco" />
+		</div>
+		
+		<div class="form-group">
+        <label for="pontuacaoMaxima">Pontuacao Maxima:</label>
+        <input type="text" id="pontuacaoMaxima" />
+		</div>
+		
+		<div class="form-group">
+        <label for="pontuacaoMedia">Pontuacao Media:</label>
+        <input type="text" id="pontuacaoMedia" />
+		</div>
+		
+		<div class="form-group">
+        <label for="pontuacaoMinima">Pontuacao Minima:</label>
+        <input type="text" id="pontuacaoMinima" />
+		</div>
+		
+		<div class="form-group">
+        <label for="pontuacaoFinal">Pontuacao Final:</label>
+        <input type="text" id="pontuacaoFinal" />
+		</div>
+		
+		<div class="form-group">
+		<button type="submit" class="btn btn-primary" style="max-width:100%;height: auto;max-height: 100%;text-align:center;margin:auto;display:block"  onclick="saveparametro()"> Enviar Parametrizacao </button>
+		</div>
+		</div>		
+		
+		
+		
+
+
+	    </div>	
+		
+		
+		<!-- <button id="downloader"  download="image.png">Download!</button>-->
+	
+</div>
+
+<font size="-2"><div class="navbar navbar-fixed-bottom" style="position:fixed;bottom:0;height:auto;margin-top:50px;width:100%;text-align:center" size="-4" >Imagens gratuitas retiradas de www.imagensanimadas.com, www.pngwing.com, www.gratispng.com e www.gyphy.com</div>
+</font>
+</body>
+
+</html>

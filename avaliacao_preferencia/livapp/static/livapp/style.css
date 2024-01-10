@@ -1,0 +1,233 @@
+li a {
+    color: blue;
+}
+
+label{
+      font-weight: bold;
+  }
+
+
+
+
+
+.index {
+	background: white url("images/background.gif") no-repeat;
+	background-color: rgba(25,140,255,0.5);
+	background-size: 1180px 1360px;  /* 80 pixels de largura e 60 pixels de altura */
+	background-size: 900px;  /* 300 pixels de largura e altura automática */
+	
+}
+
+.avatar {
+	background-color: rgba(25,140,255,0.5);
+	text-align: center;
+	/*background-size: 1180px 1360px; 
+	background-size: 900px;  
+	min-width: 500px;
+	position: absolute;
+	top: 50%;
+	left: 50%;  
+	transform: translate(-75%, -75%);
+	font-size: 2.5rem*/
+
+}
+
+.temas {
+	background-color: rgba(25,140,255,0.5);
+	text-align: center;
+	border-radius: 20px;
+}
+
+
+
+.button {
+    display: inline-block;
+    height: 150px;
+    padding: 10;
+    margin: 100;
+    vertical-align: relative;
+	position:center;
+    width: 180px;
+}
+
+#close-image img {
+	background-size: 100px 100px;
+    display: block;
+    height: 160px;  
+    width: 160px;
+	position:center;
+	transition: all .2s ease-in-out;
+	border-width: 20px;
+	border-radius: 20px;
+}
+
+#close-image:hover{border-radius: 20px;top:-4px;box-shadow:0 15px 15px #999;transition: all .2s ease-in-out}
+
+.button_padrao {
+    display: inline-block;
+    height: 180px;
+    padding: 10;
+    margin: 100;
+    vertical-align: relative;
+	position:relative;
+    width: 180px;
+}
+
+#close-image-temas img {
+	background-size: 100px 100px;
+    display: block;
+    height: 150px;  
+    width: 150px;
+	position:center;	
+	border-color: black;
+    border-style: solid;
+	border-radius: 20px;
+}
+
+#close-image-temas:hover{border-radius: 20px;top:-4px;box-shadow:0 15px 15px #999;transition: all .2s ease-in-out}
+
+#close-CSS {
+    /*background-image: url( 'http://thinkingstiff.com/images/matt.jpg' );*/
+    background-size: 50px 100px;
+    height: 50px;  
+    width: 100px;
+}
+
+#close-image-exe {
+	position: absolute; 
+	left: 500px; /* posiciona a 90px para a esquerda */ 
+	top: 200px; /* posiciona a 70px para baixo */
+	}
+
+#livrocor {
+	position: absolute; 
+	left: 650px; 
+	top: 50px; 
+	}
+/*#livrocor:hover{top:-2px;
+   transition: all .2s ease-in-out}*/
+   
+	
+#livropb {
+	position: absolute; 
+	left: -650px; 
+	top: 50px; 
+	}	
+/*#livropb:hover{top:-2px;
+   transition: all .2s ease-in-out}*/
+   
+#livrocor2 {
+	position: absolute; 
+	left: 750px; 
+	top: 50px; 
+	}
+   
+#livrocor3 {
+	position: absolute; 
+	left: 230px; 
+	top: 150px; 
+	}
+	
+#livropb3 {
+	position: absolute; 
+	left: 350px; 
+	top: 150px; 
+	}	
+   
+#livrocor4 {
+	position: absolute; 
+	left: 1000px; 
+	top: 300px; 
+	}
+	
+	
+#mesa {
+	position: absolute; 
+	left: 200px; 
+	top: 130px; 
+	width: 320px;
+	height: 240px;
+	padding: 10px;
+	max-width: 500px;
+	}	
+  
+   
+#reforco {
+	position: absolute; 
+	left: 500px; 
+	top: 50px; 
+	max-width: 200px;
+	}	
+
+#div1 {
+	width: 350px;
+	height: 270px;
+	padding: 0px;
+	border: 1px solid #aaaaaa;
+	left: 250px; 
+	top: 150px;
+	}	
+
+
+#div2 {
+	width: 250px;
+	height: 270px;
+	padding: 0px;
+	border: 1px solid #aaaaaa;
+	left: 550px; 
+	top: 50px;
+	}	
+.myForm {
+  min-width: 500px;
+  position: absolute;
+  text-align: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-30%, 80%);
+  font-size: 2.5rem
+}
+@media (max-width: 500px) {
+  .myForm {
+    min-width: 90%;
+  }
+}
+
+#teste{position:relative;top:0}
+#teste:hover{top:-4px;box-shadow:0 15px 15px #999;
+   transition: all .2s ease-in-out}
+   
+.file-input{
+     display: grid;
+     grid-template-columns: auto;
+     grid-template-rows: auto;
+     width: 10rem;
+     max-width: 12rem;
+     height: 10rem;
+     border: 1px dashed #4f86c3;
+
+}
+
+.file-input input{
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+   
+.file-input label{
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.file-input:hover{
+     background-color: beige;
+}
+   
+.file-input:active{
+    border: 1px solid #4f86c3;
+    box-shadow: inset 0 0 0 #4f86c3, 0px 10px 20px -10px #4f86c3;
+}
+
