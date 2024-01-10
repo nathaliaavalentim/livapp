@@ -1,4 +1,4 @@
-clonar o projeto: git clone 
+Para clonar o projeto: git clone 
 
 Instalações Importantes: </br>
 pip install asgiref==3.5.2</br>
