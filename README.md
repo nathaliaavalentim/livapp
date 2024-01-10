@@ -1,7 +1,7 @@
 clonar o projeto: git clone 
 
 Instalações Importantes: 
-pip install asgiref==3.5.2
+pip install asgiref==3.5.2</br>
 pip install bleedfacedetector==1.0.17
 pip install cycler==0.11.0
 pip install Django==4.0.4
