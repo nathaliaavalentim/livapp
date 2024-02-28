@@ -34,22 +34,22 @@ Execução do projeto:
 SOBRE O DASHBOARD (livApp_profissional):
 
 
-Banckend:
-Instalar BD postgresql
-Instalar o ORM Prisma: yarn add prisma
-Instalar o Prisma Client: yarn add @prisma/client
-Renomear a pasta prisma e rodar npx prisma init para gerar o env.
-No env, fazer as configurações de acordo com o seu banco
-Criar JWT secret no env (https://www.md5hashgenerator.com/)
-Migrations: yarn prisma migrate dev
-
-Instalações importantes para o dashboard:
-yarn add brcryptjs
-yarn add @types/brcryptjs
-yarn add jsonwebtoken   
-yarn add @types/jsonwebtoken
-yarn add dotenv
-
-Execuação do projeto (frontend e backend):
-yarn dev
+Banckend:</br>
+Instalar BD postgresql</br>
+Instalar o ORM Prisma: yarn add prisma</br>
+Instalar o Prisma Client: yarn add @prisma/client</br>
+Renomear a pasta prisma e rodar npx prisma init para gerar o env</br>
+No env, fazer as configurações de acordo com o seu banco</br>
+Criar JWT secret no env (https://www.md5hashgenerator.com/)</br>
+Migrations: yarn prisma migrate dev</br>
+</br>
+Instalações importantes para o dashboard:</br>
+yarn add brcryptjs</br>
+yarn add @types/brcryptjs</br>
+yarn add jsonwebtoken   </br>
+yarn add @types/jsonwebtoken</br>
+yarn add dotenv</br>
+</br>
+Execuação do projeto (frontend e backend):</br>
+yarn dev</br>
 
