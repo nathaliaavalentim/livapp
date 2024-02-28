@@ -1,5 +1,7 @@
 Para clonar o projeto: git clone https://github.com/nathyvalentim/livapp.git
 
+SOBRE O STI (LivApp):
+
 Instalações Importantes: </br>
 pip install asgiref==3.5.2</br>
 pip install bleedfacedetector==1.0.17</br>
@@ -23,6 +25,31 @@ pip install six==1.16.0</br>
 pip install sqlparse==0.4.2</br>
 pip install tzdata==2022.1</br>
 </br>
+
 Execução do projeto:
 - Acessar via terminal a pasta do projeto que contenha o arquivo manage.py e executar o comando: python manage.py runserver 0.0.0.0:5000
 - Para acesso remoto, executar o comando: ngrok http [port]
+
+
+SOBRE O DASHBOARD (LivApp Profissional):
+
+
+Banckend:
+Instalar BD postgresql
+Instalar o ORM Prisma: yarn add prisma
+Instalar o Prisma Client: yarn add @prisma/client
+Renomear a pasta prisma e rodar npx prisma init para gerar o env.
+No env, fazer as configurações de acordo com o seu banco
+Criar JWT secret no env (https://www.md5hashgenerator.com/)
+Migrations: yarn prisma migrate dev
+
+Instalações importantes para o dashboard:
+yarn add brcryptjs
+yarn add @types/brcryptjs
+yarn add jsonwebtoken   
+yarn add @types/jsonwebtoken
+yarn add dotenv
+
+Execuação do projeto (frontend e backend):
+yarn dev
+
