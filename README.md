@@ -1,6 +1,6 @@
 Para clonar o projeto: git clone https://github.com/nathyvalentim/livapp.git
 
-SOBRE O STI (LivApp (análise de preferência e análise de desemepenho)):
+SOBRE O STI (analise_preferencia e analise_desemepenho):
 
 Instalações Importantes: </br>
 pip install asgiref==3.5.2</br>
@@ -31,7 +31,7 @@ Execução do projeto:
 - Para acesso remoto, executar o comando: ngrok http [port]
 
 
-SOBRE O DASHBOARD (livAppProfissional):
+SOBRE O DASHBOARD (livApp_profissional):
 
 
 Banckend:
