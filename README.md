@@ -1,5 +1,7 @@
 Para clonar o projeto: git clone https://github.com/nathyvalentim/livapp.git
 
+
+########################################################################
 SOBRE O STI (analise_preferencia e analise_desemepenho):
 
 Instalações Importantes: </br>
@@ -31,9 +33,9 @@ Execução do projeto:
 - Para acesso remoto, executar o comando: ngrok http [port]
 
 
+########################################################################
+
 SOBRE O DASHBOARD (livApp_profissional):
-
-
 Banckend:</br>
 Instalar BD postgresql</br>
 Instalar o ORM Prisma: yarn add prisma</br>
@@ -52,4 +54,8 @@ yarn add dotenv</br>
 </br>
 Execuação do projeto (frontend e backend):</br>
 yarn dev</br>
+
+########################################################################
+SOBRE O MIDDLEWARE (livapp_middleware):
+Editar \src\DBConnection\ConnectPostgres.java com os dados do banco.
 
