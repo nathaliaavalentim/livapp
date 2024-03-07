@@ -23,21 +23,21 @@ export default function Category(){
         })
 
 
-        toast.success("Categoria cadastrada com sucesso.")
+        toast.success("Instituição cadastrada com sucesso.")
         setName('');
     }
 
     return(
         <>
-            <Head><title>Nova Categoria</title></Head>
+            <Head><title>Nova Instituição</title></Head>
             <div>
                 <Header/>
                 <main className={style.container}>
-                    <h1>Cadastrar Categorias</h1>
+                    <h1>Nova Instituição</h1>
                         <form className={style.form}  onSubmit={handleRegister}>
                             <input
                             type="text"
-                            placeholder="Digite o nome da categoria"
+                            placeholder="Digite o nome da instituição"
                             className={style.input}
                             value={name}
                             onChange={(e)=> setName(e.target.value)}

@@ -7,9 +7,9 @@ import { ChangeEvent, FormEvent, useState } from 'react'
 import { setupAPIClient } from '../../services/api'
 import { toast } from 'react-toastify'
 
-  type ItemProps ={
+type ItemProps ={
     id: string;
-  name: string;
+    name: string;
 }
 
 interface CategoryProps{
@@ -93,13 +93,13 @@ export default function Product({categoryList}: CategoryProps) {
     return (
         <>
             <Head>
-                <title>Novo Produto</title>
+                <title>Novo Aluno</title>
             </Head>
             <div>
                 <Header />
 
                 <main className={styles.container}>
-                    <h1>Novo Produto</h1>
+                    <h1>Novo Aluno</h1>
 
 
                     <form className={styles.form} onSubmit={handleRegister}>
@@ -127,24 +127,24 @@ export default function Product({categoryList}: CategoryProps) {
 
                         </select>
 
-                        <input
+                        <select placeholder='Nome do Aluno'>
                             type='text'
-                            placeholder='Nome do produto'
+                            placeholder='Nome do Aluno'
                             className={styles.input} 
                             value={name}
                             onChange={(e)=>setName(e.target.value)}
-                            />
+                            </select>
 
                         <input
                             type='text'
-                            placeholder='Preço do produto'
+                            placeholder='Idade do aluno'
                             className={styles.input}
                             value={price}
                             onChange={(e)=>setPrice(e.target.value)} 
                             />
 
                         <textarea 
-                        placeholder='Descrição do produto'
+                        placeholder='Informações adicionais'
                         className={styles.input} 
                         value={description}
                         onChange={(e)=>setDescription(e.target.value)}

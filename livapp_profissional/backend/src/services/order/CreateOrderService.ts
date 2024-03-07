@@ -1,19 +1,22 @@
 import prismaClient from "../../prisma";
 
 interface OrderRequest{
-    name: string,
-    date: string,
-    time: string,
+    name_product: string,
+    product_id: string,
+    dateSession: string,
+    schedule: string
 }
 
 class CreateOrderService{
-    async execute({ name, date, time}: OrderRequest){
-
+    async execute({ name_product, product_id, dateSession, schedule }: OrderRequest){
+console.log(name_product, product_id, dateSession)
+console.log("AQUIIII")
         const order = await prismaClient.order.create({
             data:{
-                name: name,
-                date: date,
-                time: time,
+                name_product: name_product,
+                product_id: product_id, 
+                dateSession: dateSession, 
+                schedule: schedule
             }
         })
 

@@ -28,6 +28,7 @@
     display: flex;
     flex-direction: column;
     margin: 1rem 0;
+    
   }
   
   .orderItem{
@@ -37,7 +38,33 @@
     margin-bottom: 1rem;
     align-items: center;
     border-radius: 0.3rem;
+ 
+  
+    button{
+      border:0;
+      background: transparent;
+      font-size: 1rem;
+      color: var(--white);
+      height: 60px;
+      align-items: center;
+      display:contents;
+    }
 
+    
+  
+  }
+  
+  .tag{
+    width: 9px;
+    background-color: var(--red-900);
+    height: 60px;
+    border-radius: 0.3rem 0 0 0.3rem;
+    margin-right: 1rem;
+  }
+
+  .emptyList{
+    font-size: 1.2rem;
+    color: var(--white)
   }
 
   .buttonAdd{
@@ -48,37 +75,4 @@
     font-size: 1.2rem;
     border-radius: 0.3rem;
     color: var(--dark-700);
-}
-
-
-.tag {
-  background-color: transparent;
-  height: 60px;
-  border-radius: 0.3rem;
-  display: inline-flex; /* Alterado para flex */
-  align-items: center; /* Para centralizar verticalmente */
-  padding: 0 10px; /* Adicionado padding para espaço interno */
-}
-
-.button2 {
-  background: transparent;
-  border: 0;
-  color: white;
-  text-align: center;
-  width: 100%; /* Definindo a largura como 100% */
-}
-
-
-
-  
-
-  .emptyList{
-    font-size: 1.2rem;
-    color: var(--white)
   }
-
-
-
-  .centered {
-    text-align: center;
-}

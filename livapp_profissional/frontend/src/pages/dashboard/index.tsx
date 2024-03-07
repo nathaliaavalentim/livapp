@@ -1,14 +1,13 @@
 import { canSSRAuth } from "../../utils/canSSRAuth"
 import Head from "next/head"
 import { Header }  from "../../components/Header"
-import style from "./styles.module.scss";
+import styles from "./styles.module.scss";
 import { FiRefreshCcw } from "react-icons/fi";
 import { setupAPIClient } from "../../services/api";
 import { useState } from "react";
 import Modal from 'react-modal';
 import { ModalOrder } from "../../components/ModalOrder";
-import  Link  from 'next/link'
-import { useHref } from "react-router-dom";
+import { redirect } from "next/dist/server/api-utils";
 
 
 type OrdemProps = {
@@ -17,8 +16,11 @@ type OrdemProps = {
     status: boolean;
     draft: boolean;
     name: string | null;
-    date: string;
-    time: string;
+    name_product: string;
+    dateSession: string;
+    description: string;
+    schedule: string;
+    product_id: number;
 }
 interface HomeProps{
     orders: OrdemProps[];
@@ -29,22 +31,26 @@ export type OrderItemProps = {
 	amount: number;
     order_id: string;
     product_id: string;
+    name_product: string;
+    dateSession: string;
+    description: string;
+    schedule: string;
     products:{
         id: string;
         name: string;
         description: string;
         price: string;
         banner: string;
-        date: string;
-        time: string;
     }
     orders:{
         id: string;
         table: string | number;
         status: string;
         name: string | null;
-        date: string;
-        time: string;
+        created_at: Date;
+        dateSession: string;
+        name_product: string;
+        product_id: string;
         }
 }
 
@@ -54,6 +60,7 @@ export default function Dashboard({orders}: HomeProps) {
     const [orderList, setOrderList] = useState(orders || [])
     const [modalItem, setModalItem] = useState<OrderItemProps[]>();
     const [modalVisible, setModalVisible] = useState(false);
+    const [dataPerformance, setDataPerformance] = useState([])
 
     //Fechar o Modal
     function closeModal(){
@@ -61,23 +68,30 @@ export default function Dashboard({orders}: HomeProps) {
     }
 
 
-    async function handleCreateOrder() {
-        window.location.href = 'order/' 
-    }
-
-
 
 
     //Mostrar os detalhes doe um atendimento no Modal
-    async function handleModal(id: string){
+    async function handleModal(id: string, aluno_id: number){
         const apiClient = new setupAPIClient();
-        const response = await apiClient.get('/order/detail', {
+        console.log(aluno_id);
+        const response = await apiClient.get('/order/detail?order_id='+id, {
             param:{
                 order_id: id
             }
         })
+
+        const response2 = await apiClient.get('/performance?aluno_id='+aluno_id, {
+            param:{
+                aluno_id: id
+            }
+        })
+
+        console.log(response2);
+
+        setDataPerformance(response2.data)
         setModalItem(response.data);
         setModalVisible(true);
+        
     }
 
 
@@ -102,6 +116,12 @@ export default function Dashboard({orders}: HomeProps) {
 
     }
 
+
+
+    async function handleNewOrders(){
+        window.location.href ="/order"
+    }
+
     //Vindo do react-modal
     Modal.setAppElement('#__next')
 
@@ -113,38 +133,41 @@ export default function Dashboard({orders}: HomeProps) {
 
         <div>
             <Header/>
-            <main className={style.container}>
-                <div className={style.containerHeader}>
+            <main className={styles.container}>
+                <div className={styles.containerHeader}>
                     <h1> Sessões Agendadas </h1>
-                    <button onClick={handleRefreshOrders} className={style.button}><FiRefreshCcw size={25} color="red"/></button>
+                    <button onClick={handleRefreshOrders} className={styles.button}><FiRefreshCcw size={25} color="red"/></button>
                 </div>
 
-                <article className={style.listOrders}>
+                <article className={styles.listOrders}>
 
                     {orderList.length  === 0 && (
-                        <span className={style.emptyList}>Nenhuma sessão agendada.</span>
+                        <span className={styles.emptyList}>Nenhum atendimento em aberto.</span>
                     )}
 
 
                         {orderList.map(item => (
-                            <section key={item.id} className={style.orderItem}>
-                                <button onClick={()=> handleModal(item.id)}className={style.button2}>
-                                    <div className={style.tag}>
-                                    <span>Nome: {item.name} | Data: {item.date} | Horário: {item.time}
-                                     </span>
-                                     </div>
+                            <section key={item.id} className={styles.orderItem}>
+                                <button onClick={()=> handleModal(item.id, item.product_id)}className={styles.button}>
+                                    <div className={styles.tag}></div>
+                                    <span>
+                                        Aluno(a): {item.name_product}    -----   
+                                    </span> <br/>
+                                    <span>
+                                         ----- Data:  {item.dateSession}  -----   
+                                    </span><br/>
+                                    <span>
+                                      ----- Horário: {item.schedule}    
+                                    </span><br/>
                                 </button>
                             </section>
                     ))}
 
                 </article>
 
-               
-                            <button type="submit" onClick={handleCreateOrder} className={style.buttonAdd}>
-                                Nova Sessão
+                <button onClick={handleNewOrders} type="submit" className={styles.buttonAdd}>
+                                Nova Sessão 
                             </button>
-
-                        
             </main>
 
             {modalVisible && (
@@ -152,9 +175,12 @@ export default function Dashboard({orders}: HomeProps) {
                     isOpen={modalVisible}
                     onRequestClose={closeModal}
                     orders={modalItem}
-                    handleFinishOrder={handleFinishItem}/>
+                    handleFinishOrder={handleFinishItem}
+                    dataPerformance={dataPerformance}/>
             )}
         </div>
+
+
 
         </>
 
@@ -163,7 +189,7 @@ export default function Dashboard({orders}: HomeProps) {
 
 export const getServerSideProps = canSSRAuth(async (context) => {
     const apiClient = setupAPIClient(context);
-    const response = await apiClient.get('/order/detail');
+    const response = await apiClient.get('/orders');
 
     console.log(response.data)
     return {

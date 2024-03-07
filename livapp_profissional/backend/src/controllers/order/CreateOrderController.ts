@@ -5,14 +5,19 @@ class CreateOrderController{
     async handle(req: Request, res: Response){
 
         //post e put: req.body
-        const {name, date, time} = req.body;
+        const { name_product, product_id, dateSession, schedule} = req.body;
+
+        console.log(req)
+        console.log("AQUIIII")
 
         const createOrderService = new CreateOrderService();
 
         const order = await createOrderService.execute({
-            name,
-            date,
-            time
+            name_product,
+            product_id,
+            dateSession,
+            schedule
+           
         });
         return res.json(order)
 
@@ -20,3 +25,4 @@ class CreateOrderController{
 }
 
 export {CreateOrderController}
+

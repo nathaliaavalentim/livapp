@@ -27,6 +27,9 @@ import { DetailsOrdersController } from './controllers/order/DetailsOrdersContro
 import { FinishOrderController } from './controllers/order/FinishOrderController';
 
 
+import { ListPerformanceController } from './controllers/performance/ListPerformanceController';
+
+
 const router = Router();
 const upload = multer(uploadConfig.upload("./tmp"))
 
@@ -53,4 +56,6 @@ router.get('/orders', isAuthenticated, new ListOrderController().handle)
 router.get('/order/detail', isAuthenticated, new DetailsOrdersController().handle)
 router.put('/order/finish', isAuthenticated, new FinishOrderController().handle)
 
+//Rotas de Performance
+router.get('/performance', isAuthenticated, new ListPerformanceController().handle)
 export { router };

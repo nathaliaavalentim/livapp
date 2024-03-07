@@ -17,6 +17,7 @@ export function Header(){
 
                 <nav className={styles.menuNav}>
 
+
                     <button onClick={signOut}>
                         <FiLogOut color='#fff' size={24}/>
                     </button>

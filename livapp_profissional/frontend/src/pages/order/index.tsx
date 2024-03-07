@@ -1,120 +1,135 @@
-import { FormEvent, useEffect, useState } from "react";
-import Head from "next/head";
-import { Header } from "../../components/Header";
-import style from "./styles.module.scss";
-import { setupAPIClient } from "../../services/api";
-import { toast } from "react-toastify";
-import { canSSRAuth } from "../../utils/canSSRAuth";
+import { Header } from '../../components/Header'
+import styles from './styles.module.scss'
+import Head from 'next/head'
+import { canSSRAuth } from '../../utils/canSSRAuth'
+import { FiUpload } from 'react-icons/fi'
+import { ChangeEvent, FormEvent, useState } from 'react'
+import { setupAPIClient } from '../../services/api'
+import { toast } from 'react-toastify'
 
-
-type ItemProps = {
+type ProductProps = {
     id: string;
     name: string;
-    date: string;
-    time: string;
-}
-interface ProductProps {
-    productList: ItemProps[];
 }
 
-export default function Order({ productList }: ProductProps) {
+interface ProdProps {
+    productList: ProductProps[];
+}
 
-    const [name, setName] = useState(productList);
+
+export default function Order({ productList }: ProdProps) {
+
+    const [dateSession, setDateSession] = useState('');
+    const [products, setProducts] = useState(productList || []);
     const [productSelected, setProductSelected] = useState(0);
-    const [date, setDate] = useState('');
-    const [time, setTime] = useState('');
+    const [schedule, setSchedule] = useState('');
 
+
+
+
+    //Quando seleciona uma nova categoria na lista
     function handleChangeProduct(e) {
         setProductSelected(e.target.value)
     }
 
+
+    //Registrando o produto
     async function handleRegister(e: FormEvent) {
         e.preventDefault();
-    
         try {
-            if (name.length === 0) {
-                return; // Evitar a submissão se não houver itens selecionados
-            }
+            const apiClient = setupAPIClient();
+            await apiClient.post('/order', {
+                'name_product': products[productSelected].name,
+                'product_id': products[productSelected].id,
+                'dateSession': dateSession,
+                'schedule': schedule
 
-            console.log(name[productSelected].name)
-            console.log(date)
-            console.log(time)
-    
-
-            const data = JSON.stringify({
-                name: name[productSelected].name,
-                date: date,
-                time: time
             });
+            toast.success("Sessão agendada com sucesso.")
 
-        console.log('Dados:'+data)
-        
-    
-            const apiClient = setupAPIClient(undefined);
-            await apiClient.post('/order', data);
-            toast.success("Sessão cadastrada com sucesso.");
-        } catch (err) {
-            toast.error("Ops! Erro ao cadastrar.");
         }
+        catch (err) {
+            toast.error("Ops! Erro ao agendar.")
+        }
+
+        setProducts([]);
+        setDateSession('');
+        window.location.href ="/dashboard"
+
+
     }
 
-    
+
+
     return (
         <>
-            <Head><title>Nova Sessão</title></Head>
+            <Head>
+                <title>Nova Sessão</title>
+            </Head>
             <div>
                 <Header />
-                <main className={style.container}>
+
+                <main className={styles.container}>
                     <h1>Nova Sessão</h1>
-                    <form className={style.form} onSubmit={handleRegister}>
-                    
-                    <select className={style.select} value={productSelected} onChange={handleChangeProduct}>
-                            {name && name.map((item, index) => {
+
+
+                    <form className={styles.form} onSubmit={handleRegister}>
+
+
+
+                        <select value={productSelected} onChange={handleChangeProduct} placeholder='Nome do Aluno'>
+                            {products.map((item, index) => {
                                 return (
                                     <option key={item.id} value={index}>
                                         {item.name}
                                     </option>
                                 )
                             })}
+
                         </select>
-                        <input
-                            type="date"
-                            placeholder="Data"
-                            className={style.input}
-                            value={date}
-                            onChange={(e) => setDate(e.target.value)}
 
-                        />
 
 
                         <input
-                            
-                            placeholder="Horário"
-                            className={style.input}
-                            value={time}
-                            onChange={(e) => setTime(e.target.value)}
+                            type='date'
+                            placeholder='Data da Sessão'
+                            className={styles.input}
+                            value={dateSession}
+                            onChange={(e) => setDateSession(e.target.value)}
+                        />
 
+<input
+                            type='time'
+                            placeholder='Hora da Sessão'
+                            className={styles.input}
+                            value={schedule}
+                            onChange={(e) => setSchedule(e.target.value)}
                         />
 
 
-                        <button type="submit" className={style.buttonAdd}>
-                            Cadastrar
-                        </button>
+
+
+
+
+                        <button className={styles.buttonAdd} type='submit'>Cadastrar</button>
 
                     </form>
 
                 </main>
             </div>
+
+
+
         </>
+
     )
 }
 
 export const getServerSideProps = canSSRAuth(async (context) => {
-    
+
     const apiClient = setupAPIClient(context);
 
     const response = await apiClient.get('/category/product')
-    console.log(JSON.stringify(response.data));
 
 
     return {
