@@ -1,4 +1,4 @@
-Para clonar o projeto: git clone https://github.com/nathyvalentim/livapp.git
+Para clonar o projeto: git clone [https://github.com/nathyvalentim/livapp.git](https://github.com/nathaliaavalentim/livapp.git)
 
 
 ########################################################################
