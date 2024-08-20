@@ -42,6 +42,7 @@ Instalar o ORM Prisma: yarn add prisma</br>
 Instalar o Prisma Client: yarn add @prisma/client</br>
 Renomear a pasta prisma e rodar npx prisma init para gerar o env</br>
 No env, fazer as configurações de acordo com o seu banco</br>
+Fazer as configurações do Prisma Client<br/>
 Criar JWT secret no env (https://www.md5hashgenerator.com/)</br>
 Migrations: yarn prisma migrate dev</br>
 </br>
