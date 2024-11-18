@@ -1,6 +1,3 @@
-Esta pesquisa foi realizada com o apoio da Fundação de Amparo à Pesquisa do Estado de Minas Gerais (FAPEMIG) - DEMANDA UNIVERSAL Processo: APQ-00837-21.
-
-
 Para clonar o projeto: git clone [https://github.com/nathyvalentim/livapp.git](https://github.com/nathaliaavalentim/livapp.git)
 
 
